@@ -50,12 +50,9 @@ const update = async (req, res) => {
             author_id: req.auth.uid,
             published_on: new Date()
         };
-        if(!req.params.handle && !req.auth.uid) {
-            return res.status(401).send("User is not the same as authenticated user!");
-        } else {
-            await posts.update(req.params.id, payload);
-            return res.status(204).send('');
-        };
+        // return res.status(401).send("User is not the same as authenticated user!");
+        await posts.update(req.params.id, req.auth.uid, payload);
+        return res.status(204).send('');
     } catch (err) {
         return res.status(500).send("ISE!");
     }
@@ -63,12 +60,9 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
     try {
-        if(!req.params.handle && !req.auth.uid) {
-            return res.status(401).send("User is not the same as authenticated user!");
-        } else {
-            await posts.remove(req.params.id);
-            return res.status(204).send('');
-        };
+        // return res.status(401).send("User is not the same as authenticated user!");
+        await posts.remove(req.params.id, req.auth.uid);
+        return res.status(204).send('');
     } catch (err) {
         return res.status(500).send("ISE!");
     }
